@@ -19,3 +19,16 @@
     margin-left: 20px;
     font-size: 25px;
 }
+
+.logout-button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 25px;
+    margin-left: 20px;
+}
+
+.logout-button:hover {
+    text-decoration: underline;
+}

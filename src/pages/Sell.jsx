@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios"; // For API requests
 import './Sell.css';
+import ImageUpload from '../components/ImageUpload'; // Import ImageUpload component
 
 const Sell = () => {
     const [items, setItems] = useState([]);
     const [newItem, setNewItem] = useState({
         productName: "",
         price: "",
-        productImage: ""
+        productImage: "" // Will be set after the image upload
     });
 
     const [editItem, setEditItem] = useState(null);
@@ -55,6 +56,16 @@ const Sell = () => {
         }
     };
 
+    // Handle image upload and set the image URL in the newItem object
+    const handleImageUpload = (url) => {
+        setNewItem({ ...newItem, productImage: url });
+    };
+
+    // Handle image upload for edit mode
+    const handleEditImageUpload = (url) => {
+        setEditItem({ ...editItem, productImage: url });
+    };
+
     useEffect(() => {
         fetchItems();
     }, []);
@@ -80,13 +91,10 @@ const Sell = () => {
                         onChange={(e) => setNewItem({ ...newItem, price: e.target.value })}
                         required
                     />
-                    <input
-                        type="text"
-                        placeholder="Product Image URL"
-                        value={newItem.productImage}
-                        onChange={(e) => setNewItem({ ...newItem, productImage: e.target.value })}
-                        required
-                    />
+
+                    {/* Image Upload component */}
+                    <ImageUpload onImageUpload={handleImageUpload} />
+
                     <button type="submit">Add Item</button>
                 </form>
             </div>
@@ -107,11 +115,10 @@ const Sell = () => {
                                     value={editItem.price}
                                     onChange={(e) => setEditItem({ ...editItem, price: e.target.value })}
                                 />
-                                <input
-                                    type="text"
-                                    value={editItem.productImage}
-                                    onChange={(e) => setEditItem({ ...editItem, productImage: e.target.value })}
-                                />
+
+                                {/* Image Upload component for editing */}
+                                <ImageUpload onImageUpload={handleEditImageUpload} />
+
                                 <button onClick={() => handleUpdateItem(item.id)}>Save</button>
                             </>
                         ) : (
